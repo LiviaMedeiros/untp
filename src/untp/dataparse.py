@@ -148,7 +148,7 @@ def parse_plistdata(_data):
 			frame         = _parse_str([["x","y"],["w","h"]], config["textureRect"])
 			center_offset = _parse_str(["x","y"], config["spriteOffset"])
 			source_size   = _parse_str(["w","h"], config["spriteSourceSize"])
-			rotated       = config.textureRotated
+			rotated       = config["textureRotated"]
 			src_rect      = (
 				frame["x"],
 				frame["y"],
