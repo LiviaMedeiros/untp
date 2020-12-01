@@ -87,17 +87,18 @@ def unpacker(data_file, image_file=None, output_dir=None, config=None, extra_dat
         if frame_data["rotated"]:
             temp_image = temp_image.rotate(90, expand=1)
 
+        output_path = os.path.join(output_dir, frame_data["name"])
+        pre,ext = os.path.splitext(output_path)
         # create dst image
-        mode = "RGBA" if (src_image.mode in ('RGBA', 'LA') or (src_image.mode == 'P' and 'transparency' in src_image.info)) else "RGB"
+        mode = "RGBA" if ((src_image.mode in ('RGBA', 'LA') or (src_image.mode == 'P' and 'transparency' in src_image.info)) and ext not in ['.jpg', '.jpeg']) else "RGB"
         dst_image = Image.new(mode, frame_data["source_size"], (0,0,0,0))
         dst_image.paste(temp_image, frame_data["offset"], mask=0)
 
-        output_path = os.path.join(output_dir, frame_data["name"])
-        pre,ext = os.path.splitext(output_path)
         if not ext:
             output_path = output_path + "." + image_ext
         if not os.path.exists(os.path.dirname(output_path)):
             os.makedirs(os.path.dirname(output_path))
+        
         dst_image.save(output_path)
 
     log("success:" + data_file)
