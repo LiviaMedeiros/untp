@@ -5,7 +5,7 @@
 import os
 import json
 from parse import parse
-from plistlib import readPlist
+import plistlib
 from pprint import pprint
 
 def parse_file(_filepath, _config=None, _extra_data_receiver=None):
@@ -13,7 +13,8 @@ def parse_file(_filepath, _config=None, _extra_data_receiver=None):
 	pre,ext = os.path.splitext(name)
 	if ext == ".plist":
 		try:
-			data = readPlist(_filepath)
+			with open(_filepath, 'rb') as f:
+				data = plistlib.load(f)
 		except Exception:
 			print("fail: read plist file failed >", _filepath)
 			return

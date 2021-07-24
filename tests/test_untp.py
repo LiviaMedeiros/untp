@@ -1,6 +1,6 @@
 #!/usr/bin/env python  
 # coding=utf-8  
-# Python 2.7.3
+# Python 3.4.10
 
 
 import unittest
@@ -31,7 +31,8 @@ class TestUnpackPlist(unittest.TestCase):
 			shutil.rmtree(TEMP_PATH)
 
 	def _test_unpack(self, _plist, _output, _size_field="{sourceSize}"):
-		data = plistlib.readPlist(_plist)
+		with open(_plist, 'rb') as f:
+			data = plistlib.load(f)
 		for k,v in data.frames.iteritems():
 			clip_path = os.path.join(_output, k)
 			self.assertTrue(os.path.exists(clip_path))
